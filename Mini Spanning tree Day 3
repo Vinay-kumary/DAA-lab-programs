@@ -1,0 +1,58 @@
+1.	#include <stdio.h>    
+2.	#include <limits.h>    
+3.	#define vertices 5  
+5.	int minimum_key(int k[], int mst[])    
+6.	{  
+7.	    int minimum  = INT_MAX, min,i;    
+10.	    for (i = 0; i < vertices; i++)  
+11.	        if (mst[i] == 0 && k[i] < minimum )   
+12.	            minimum = k[i], min = i;    
+13.	    return min;    
+14.	}    
+15.	
+17.	void prim(int g[vertices][vertices])    
+18.	{    
+19.	   
+20.	    int parent[vertices];    
+21.	    
+22.	    int k[vertices];       
+23.	    int mst[vertices];      
+24.	    int i, count,edge,v; 
+25.	    for (i = 0; i < vertices; i++)  
+26.	    {  
+27.	        k[i] = INT_MAX;  
+28.	        mst[i] = 0;    
+29.	    }  
+30.	    k[0] = 0; 
+31.	    parent[0] = -1;   
+32.	    for (count = 0; count < vertices-1; count++)    
+33.	    {    
+34.	     
+35.	        edge = minimum_key(k, mst);    
+36.	        mst[edge] = 1;    
+37.	        for (v = 0; v < vertices; v++)    
+38.	        {  
+39.	            if (g[edge][v] && mst[v] == 0 && g[edge][v] <  k[v])    
+40.	            {  
+41.	                parent[v]  = edge, k[v] = g[edge][v];    
+42.	            }  
+43.	        }  
+44.	     }    
+45.	      
+46.	     printf("\n Edge \t  Weight\n");  
+47.	     for (i = 1; i < vertices; i++)    
+48.	     printf(" %d <-> %d    %d \n", parent[i], i, g[i][parent[i]]);    
+49.	      
+50.	}    
+51.	int main()    
+52.	{    
+53.	    int g[vertices][vertices] = {{0, 0, 3, 0, 0},    
+54.	                                {0, 0, 10, 4, 0},    
+55.	                                {3, 10, 0, 2, 6},    
+56.	                                {0, 4, 2, 0, 1},    
+57.	                                {0, 0, 6, 1, 0},    
+58.	                                };   
+59.	    prim(g);    
+60.	    return 0;  
+61.	}  
+
